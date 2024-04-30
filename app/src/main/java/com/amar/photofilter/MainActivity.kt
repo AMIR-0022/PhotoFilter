@@ -3,13 +3,11 @@ package com.amar.photofilter
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import com.amar.photofilter.constants.Constants
 import com.amar.photofilter.databinding.ActivityMainBinding
+import com.amar.photofilter.ui.edit_image.EditImageActivity
 
 class MainActivity : AppCompatActivity() {
 

@@ -11,7 +11,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".EditImageActivity">
+        tools:context=".ui.edit_image.EditImageActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/mainAppBar"
@@ -42,6 +42,19 @@
             app:layout_constraintBottom_toTopOf="@id/rv_filter"
             />
 
+        <ProgressBar
+            android:id="@+id/pb_preview_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateOnly="true"
+            android:indeterminateTint="@color/color_primaryDark"
+            style="@style/Widget.Material3.CircularProgressIndicator"
+            app:layout_constraintBottom_toBottomOf="@id/iv_selected_image"
+            app:layout_constraintStart_toStartOf="@id/iv_selected_image"
+            app:layout_constraintEnd_toEndOf="@id/iv_selected_image"
+            app:layout_constraintTop_toTopOf="@id/iv_selected_image"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_filter"
             android:layout_width="match_parent"
@@ -52,6 +65,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/pb_filter_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateOnly="true"
+            android:indeterminateTint="@color/color_primaryDark"
+            style="@style/Widget.Material3.CircularProgressIndicator"
+            android:layout_marginBottom="@dimen/_25sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

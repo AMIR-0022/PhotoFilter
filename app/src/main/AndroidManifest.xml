@@ -13,7 +13,7 @@
         android:theme="@style/Theme.PhotoFilter"
         tools:targetApi="31">
         <activity
-            android:name=".EditImageActivity"
+            android:name=".ui.edit_image.EditImageActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
