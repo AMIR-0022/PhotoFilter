@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.amar.photofilter.R
 import com.amar.photofilter.databinding.ListItemFilterBinding
 
 class ImageAdapter(private val callback: (position: Int, imageFilter: ImageFilter) -> Unit):
@@ -12,6 +14,9 @@ class ImageAdapter(private val callback: (position: Int, imageFilter: ImageFilte
 
     private var imageFilterList: List<ImageFilter> = arrayListOf()
     private lateinit var context: Context
+
+    private var currentPosition = 0
+    private var previousPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageAdapter.ViewHolder {
         context = parent.context
@@ -39,6 +44,25 @@ class ImageAdapter(private val callback: (position: Int, imageFilter: ImageFilte
             fun bind(imageFilter: ImageFilter) {
                 binding.ivItemFilter.setImageBitmap(imageFilter.filterPrev)
                 binding.tvItemFilter.text = imageFilter.name
+                binding.tvItemFilter.setTextColor(ContextCompat.getColor(context,
+                    if (currentPosition==adapterPosition)
+                        R.color.color_primaryDark
+                    else
+                        R.color.color_primaryText
+                ))
+
+                itemView.apply {
+                    setOnClickListener {
+                        if (adapterPosition != currentPosition) {
+                            callback.invoke(adapterPosition, imageFilter)
+                            previousPosition = currentPosition
+                            currentPosition = adapterPosition
+                            
+                            notifyItemChanged(currentPosition, Unit)
+                            notifyItemChanged(previousPosition, Unit)
+                        }
+                    }
+                }
             }
         }
 

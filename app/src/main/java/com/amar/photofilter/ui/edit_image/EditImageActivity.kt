@@ -1,5 +1,6 @@
 package com.amar.photofilter.ui.edit_image
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -9,11 +10,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.amar.photofilter.R
 import com.amar.photofilter.constants.Constants
 import com.amar.photofilter.databinding.ActivityEditImageBinding
 import com.amar.photofilter.utils.displayToast
+import jp.co.cyberagent.android.gpuimage.GPUImage
 
 class EditImageActivity : AppCompatActivity() {
     
@@ -22,9 +25,13 @@ class EditImageActivity : AppCompatActivity() {
     private lateinit var viewModel: EditImageVM
     private lateinit var repository: EditImageRP
 
+    private lateinit var gpuImage: GPUImage
+    private lateinit var originalBitmap: Bitmap
+    private var filteredBitmap = MutableLiveData<Bitmap>()
+
     private val adapter: ImageAdapter by lazy {
         ImageAdapter {position, imageFilter ->
-            Toast.makeText(this, "$position\n${imageFilter.name}", Toast.LENGTH_SHORT).show()
+            onFilterImageClick(position, imageFilter)
         }
     }
 
@@ -44,6 +51,15 @@ class EditImageActivity : AppCompatActivity() {
 
         // observe the data
         setUpObserver()
+
+        // show original image on long press
+        binding.ivSelectedImage.setOnLongClickListener {
+            binding.ivSelectedImage.setImageBitmap(originalBitmap)
+            return@setOnLongClickListener false
+        }
+        binding.ivSelectedImage.setOnClickListener{
+            binding.ivSelectedImage.setImageBitmap(filteredBitmap.value)
+        }
 
     }
 
@@ -70,6 +86,7 @@ class EditImageActivity : AppCompatActivity() {
     }
 
     private fun prepareImagePreview() {
+        gpuImage = GPUImage(applicationContext)
         intent.getStringExtra(Constants.KEY_IMAGE_URI)?.let { imageUri ->
             viewModel.prepareImagePreview(Uri.parse(imageUri))
         }
@@ -82,12 +99,21 @@ class EditImageActivity : AppCompatActivity() {
                 if (dataState.isLoading) View.VISIBLE else View.GONE
 
             dataState.bitmap?.let { bitmap ->
-                binding.ivSelectedImage.setImageBitmap(bitmap)
-                viewModel.loadingImageFilters(bitmap)
+                // for original image preview
+                originalBitmap = bitmap
+                filteredBitmap.value = bitmap
+                with(originalBitmap) {
+                    gpuImage.setImage(this)
+                    viewModel.loadingImageFilters(this)
+                }
             } ?: run {
                 dataState.error?.let { error ->
                     displayToast(error)
                 }
+            }
+
+            filteredBitmap.observe(this) {
+                binding.ivSelectedImage.setImageBitmap(it)
             }
         }
 
@@ -103,6 +129,15 @@ class EditImageActivity : AppCompatActivity() {
                 dataState.error?.let { error ->
                     displayToast(error)
                 }
+            }
+        }
+    }
+
+    private fun onFilterImageClick(position: Int, imageFilter: ImageFilter){
+        with(imageFilter) {
+            with(gpuImage) {
+                setFilter(filter)
+                filteredBitmap.value = bitmapWithFilterApplied
             }
         }
     }
