@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PhotoFilter</string>
+
+    <string name="string_save">Save</string>
+
+    <string name="string_saved_images">Saved Images</string>
+    <string name="string_edit_image">Edit New Image</string>
+
+    <string name="string_image_filter">Image Filter</string>
+    <string name="string_lets_create">Let\'s create something new!</string>
+
+    <string name="string_filter_name">Filter Name</string>
+
+</resources>
