@@ -32,7 +32,15 @@
                 />
         </com.google.android.material.appbar.AppBarLayout>
 
-
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_selected_image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainAppBar"
+            app:layout_constraintBottom_toTopOf="@id/rv_filter"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_filter"
