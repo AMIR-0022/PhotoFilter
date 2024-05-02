@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amar.photofilter.R
 import com.amar.photofilter.databinding.ListItemFilterBinding
 
-class ImageAdapter(private val callback: (position: Int, imageFilter: ImageFilter) -> Unit):
-    RecyclerView.Adapter<ImageAdapter.ViewHolder>(){
+class EditImageAdapter(private val callback: (position: Int, imageFilter: ImageFilter) -> Unit):
+    RecyclerView.Adapter<EditImageAdapter.ViewHolder>(){
 
     private var imageFilterList: List<ImageFilter> = arrayListOf()
     private lateinit var context: Context
@@ -18,14 +18,14 @@ class ImageAdapter(private val callback: (position: Int, imageFilter: ImageFilte
     private var currentPosition = 0
     private var previousPosition = 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditImageAdapter.ViewHolder {
         context = parent.context
         val inflater = LayoutInflater.from(context)
         val binding = ListItemFilterBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ImageAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EditImageAdapter.ViewHolder, position: Int) {
         holder.bind(imageFilterList[position])
     }
 

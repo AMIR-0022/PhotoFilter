@@ -30,8 +30,8 @@ class EditImageActivity : AppCompatActivity() {
     private lateinit var originalBitmap: Bitmap
     private var filteredBitmap = MutableLiveData<Bitmap>()
 
-    private val adapter: ImageAdapter by lazy {
-        ImageAdapter {position, imageFilter ->
+    private val adapter: EditImageAdapter by lazy {
+        EditImageAdapter { position, imageFilter ->
             onFilterImageClick(position, imageFilter)
         }
     }
@@ -41,7 +41,7 @@ class EditImageActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_image)
 
         repository = EditImageImpRP(this)
-        viewModel = ViewModelProvider(this, ImageFactory(repository))[EditImageVM::class.java]
+        viewModel = ViewModelProvider(this, EditImageFactory(repository))[EditImageVM::class.java]
 
         // set custom toolbar
         setSupportActionBar(binding.mainToolBar)

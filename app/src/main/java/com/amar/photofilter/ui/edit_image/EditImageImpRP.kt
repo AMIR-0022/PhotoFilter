@@ -11,7 +11,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Toast
+import com.amar.photofilter.constants.Constants.FOLDER_NAME
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageAlphaBlendFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageBrightnessFilter
@@ -44,7 +44,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
-import java.io.OutputStream
 
 class EditImageImpRP(private val context: Context): EditImageRP {
 
@@ -205,7 +204,7 @@ class EditImageImpRP(private val context: Context): EditImageRP {
 
     override suspend fun saveFilteredImage(filteredBitmap: Bitmap): Uri? {
         val fileName = "IMG_${System.currentTimeMillis()}.jpg"
-        val folderName = "Photo Filter"
+        val folderName = FOLDER_NAME
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")

@@ -10,8 +10,8 @@ import com.amar.photofilter.utils.Coroutines
 class EditImageVM(private val editImageRP: EditImageRP): ViewModel() {
 
     // Region:: Prepare Image Preview
-    private val imageProDataString = MutableLiveData<ImageProviderDataState>()
-    val imagePreviewUiState: LiveData<ImageProviderDataState> get() = imageProDataString
+    private val imagePreviewDataString = MutableLiveData<ImageProviderDataState>()
+    val imagePreviewUiState: LiveData<ImageProviderDataState> get() = imagePreviewDataString
     data class ImageProviderDataState(
         val isLoading: Boolean,
         val bitmap: Bitmap?,
@@ -19,7 +19,7 @@ class EditImageVM(private val editImageRP: EditImageRP): ViewModel() {
     )
     private fun emitImagePreviewUiState(isLoading: Boolean = false, bitmap: Bitmap? = null, error: String? = null){
         val dataState = ImageProviderDataState(isLoading, bitmap, error)
-        imageProDataString.postValue(dataState)
+        imagePreviewDataString.postValue(dataState)
     }
     fun prepareImagePreview(imageUri: Uri) {
         Coroutines.io {
