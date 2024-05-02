@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.amar.photofilter.constants.Constants
 import com.amar.photofilter.databinding.ActivityMainBinding
 import com.amar.photofilter.ui.edit_image.EditImageActivity
+import com.amar.photofilter.ui.save_image.SavedImageActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnSavedImages.setOnClickListener {
-
+            val intent = Intent(this, SavedImageActivity::class.java)
+            startActivity(intent)
         }
     }
 

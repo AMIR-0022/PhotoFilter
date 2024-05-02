@@ -1,5 +1,6 @@
 package com.amar.photofilter.ui.edit_image
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -7,7 +8,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.amar.photofilter.R
 import com.amar.photofilter.constants.Constants
 import com.amar.photofilter.databinding.ActivityEditImageBinding
+import com.amar.photofilter.ui.filtered_image.FilteredImageActivity
 import com.amar.photofilter.utils.displayToast
 import jp.co.cyberagent.android.gpuimage.GPUImage
 
@@ -70,7 +71,9 @@ class EditImageActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.opt_save) {
-            Toast.makeText(this, "saving in process", Toast.LENGTH_SHORT).show()
+            filteredBitmap.value?.let { bitmap ->  
+                viewModel.saveFilteredImage(bitmap)
+            }
         } else if (item.itemId==android.R.id.home){
             onBackPressedDispatcher.onBackPressed()
         }
@@ -114,6 +117,20 @@ class EditImageActivity : AppCompatActivity() {
 
             filteredBitmap.observe(this) {
                 binding.ivSelectedImage.setImageBitmap(it)
+            }
+
+            viewModel.saveFilteredImageUiState.observe(this) {
+                val saveFilteredImageDatState = it ?: return@observe
+
+                saveFilteredImageDatState.uri?.let { savedImageUri ->
+                    val intent = Intent(applicationContext, FilteredImageActivity::class.java)
+                    intent.putExtra(Constants.KEY_FILTERED_IMAGE_URI, savedImageUri.toString())
+                    startActivity(intent)
+                } ?: run {
+                    dataState.error?.let { error ->
+                        displayToast(error)
+                    }
+                }
             }
         }
 

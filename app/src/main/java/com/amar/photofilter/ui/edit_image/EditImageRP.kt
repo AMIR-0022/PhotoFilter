@@ -9,4 +9,6 @@ interface EditImageRP {
 
     suspend fun getImageFilters(image: Bitmap): List<ImageFilter>
 
+    suspend fun saveFilteredImage(filteredBitmap: Bitmap): Uri?
+
 }
